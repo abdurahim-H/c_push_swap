@@ -15,9 +15,16 @@ typedef struct {
     int top;
 } t_stack;
 
-// Function prototypes for stack operations
-void sa(int *stack_a);
-void sb(int *stack_b);
-// Add other prototypes here
+
+void	swap(int *a, int *b);
+long	convert_to_long(char *str);
+int		process_args(int argc, char **argv, int *arr);
+int		partition(int arr[], int low, int high);
+void	quickSort(int arr[], int low, int high);
+int		check_duplicates(int arr[], int n);
+void	init_stack(t_stack *stack, int capacity);
+void	push(t_stack *stack, int item);
+int		pop(t_stack *stack);
+void	free_stack(t_stack *stack);
 
 #endif

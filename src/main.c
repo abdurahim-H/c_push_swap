@@ -6,7 +6,7 @@
 /*   By: event <event@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 22:43:47 by event             #+#    #+#             */
-/*   Updated: 2024/05/21 01:36:03 by event            ###   ########.fr       */
+/*   Updated: 2024/05/21 15:35:10 by event            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,32 @@ int check_duplicates(int arr[], int n)
 	return (0);
 }
 
-int	main(int argc, char **argv)
-{
-	if (argc < 2)
-		return (0);
-	return (process_args(argc, argv));
+int main(int argc, char **argv) {
+    if (argc < 2)
+        return 0;  // No input provided
+
+    int arr[argc - 1];  // Array to store numbers for initial processing
+
+    // Process arguments and fill the array first
+    if (process_args(argc, argv, arr)) {
+        fprintf(stderr, "Error processing input\n");
+        return 1;
+    }
+
+    // Only initialize stacks after input is validated
+    t_stack a, b;
+    init_stack(&a, argc - 1);  // Stack a has enough space for all input numbers
+    init_stack(&b, argc - 1);  // Stack b must also potentially hold all numbers
+
+    // Fill stack a with numbers from the array
+    for (int i = 0; i < argc - 1; i++) {
+        push(&a, arr[i]);
+    }
+
+    // [Insert sorting logic here]
+
+    // Free stack resources before exiting
+    free_stack(&a);
+    free_stack(&b);
+    return 0;
 }

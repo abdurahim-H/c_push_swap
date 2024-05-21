@@ -6,19 +6,19 @@
 /*   By: event <event@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 01:38:02 by event             #+#    #+#             */
-/*   Updated: 2024/05/21 02:04:14 by event            ###   ########.fr       */
+/*   Updated: 2024/05/21 14:33:49 by event            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	init_stack(t_stack *stack, int capacity)
+void	init_stack(t_stack *stack, int capacity)
 {
 	stack -> elements = (int *)malloc(capacity * sizeof(int));
 	if (stack -> elements == NULL)
 	{
 		perror ("Failed to initialize stack");
-		return (EXIT_FAILURE);
+		exit (EXIT_FAILURE);
 	}
 	stack -> size = capacity;
 	stack -> top = -1;

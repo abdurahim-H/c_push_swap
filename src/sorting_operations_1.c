@@ -6,7 +6,7 @@
 /*   By: abhudulo <abhudulo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:12:31 by abhudulo          #+#    #+#             */
-/*   Updated: 2024/05/24 03:48:49 by abhudulo         ###   ########.fr       */
+/*   Updated: 2024/05/28 19:09:45 by abhudulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,20 @@ void	sb(t_stack *b)
 		swap(&b->elements[b->top], &b->elements[b->top - 1]);
 }
 
-void	pa(t_stack *a, t_stack *b)
-{
-	int	item;
-
-	if (b->top > 0)
-	{
-		item = pop(b);
-		push(a, item);
+void pb(t_stack *a, t_stack *b) {
+	if (a->top >= 0) {  // Check if stack a is not empty
+		int element = pop(a);  // Pop an element from stack a
+		push(b, element);  // Push the element onto stack b
+	} else {
+		printf("stack underflow\n");
 	}
 }
 
-void	pb(t_stack *a, t_stack *b)
-{
-	int	item;
-
-	if (a-> top >= 0)
-	{
-		item = pop(a);
-		push(b, item);
+void pa(t_stack *a, t_stack *b) {
+	if (b->top >= 0) {  // Check if stack b is not empty
+		int element = pop(b);  // Pop an element from stack b
+		push(a, element);  // Push the element onto stack a
+	} else {
+		printf("stack underflow\n");
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack_operations.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: event <event@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abhudulo <abhudulo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 01:38:02 by event             #+#    #+#             */
-/*   Updated: 2024/05/21 14:33:49 by event            ###   ########.fr       */
+/*   Updated: 2024/05/26 05:07:11 by abhudulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	pop(t_stack *stack)
 	return (stack -> elements[stack-> top--]);
 }
 
-void free_stack(t_stack *stack)
+void	free_stack(t_stack *stack)
 {
 	free(stack -> elements);
 	stack -> elements = NULL;

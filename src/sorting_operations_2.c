@@ -6,131 +6,52 @@
 /*   By: abhudulo <abhudulo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 23:06:00 by abhudulo          #+#    #+#             */
-/*   Updated: 2024/05/26 07:04:33 by abhudulo         ###   ########.fr       */
+/*   Updated: 2024/05/28 20:51:17 by abhudulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// void	ra(t_stack *a)
-// {
-// 	int	i;
-// 	int	top_item;
-
-// 	if (a->top > 0)
-// 	{
-// 		i = a->top;
-// 		top_item = pop(a);
-// 		while (i >= 0)
-// 		{
-// 			a->elements[i + 1] = a->elements[i];
-// 			i--;
-// 		}
-// 		a->elements[0] = top_item;
-// 	}
-// }
-// void	rb(t_stack *b)
-// {
-// 	int	i;
-// 	int	top_item;
-
-// 	if (b->top > 0)
-// 	{
-// 		i = b->top;
-// 		top_item = pop(b);
-// 		while (i >= 0)
-// 		{
-// 			b->elements[i + 1] = b->elements[i];
-// 			i--;
-// 		}
-// 		b->elements[0] = top_item;
-// 	}
-// }
-
-// int ra(t_stack *a)
-// {
-// 	int i;
-// 	int first_item;
-
-// 	if (a->top > 0)
-// 	{
-// 		first_item = a->elements[0];
-// 		for (i = 0; i < a->top - 1; i++)
-// 		{
-// 			a->elements[i] = a->elements[i + 1];
-// 		}
-// 		a->elements[a->top - 1] = first_item;
-// 	}
-// 	return a->top - 1;
-// }
-
-// void ra(t_stack *a) {
-//     if (a->top > 0) {
-//         int first_item = a->elements[0];
-//         for (int i = 0; i < a->top; i++) {
-//             a->elements[i] = a->elements[i + 1];
-//         }
-//         a->elements[a->top] = first_item;
-//     }
-// }
-
-void ra(t_stack *a) {
-    if (a->top > 0) {
-        int temp = a->elements[0];  // Store the first element
-        for (int i = 0; i < a->top; i++) {
-            a->elements[i] = a->elements[i + 1];  // Shift elements left
-        }
-        a->elements[a->top] = temp;  // Put the first element at the end
+void ra(t_stack *a, t_command **cmd_list)
+{
+    if (a->size > 1) {
+        rotate_stack(a);
+        add_command(cmd_list, "ra\n");
     }
 }
 
-void rb(t_stack *b) {
-    if (b->top > 0) {
-        int temp = b->elements[0];  // Store the first element
-        for (int i = 0; i < b->top; i++) {
-            b->elements[i] = b->elements[i + 1];  // Shift elements left
-        }
-        b->elements[b->top] = temp;  // Put the first element at the end
+void rb(t_stack *b, t_command **cmd_list)
+{
+    if (b->size > 1) {
+        rotate_stack(b);
+        add_command(cmd_list, "rb\n");
     }
 }
 
-void	rra(t_stack *a)
+void rr(t_stack *a, t_stack *b, t_command **cmd_list)
 {
-	int	i;
-	int	last_item;
-
-	if (a->top > 0)
-	{
-		i = a->top;
-		last_item = a->elements[a->top];
-		while (i > 0)
-		{
-			a->elements[i] = a->elements[i - 1];
-			i--;
-		}
-		a->elements[0] = last_item;
-	}
+    ra(a, cmd_list);
+    rb(b, cmd_list);
 }
 
-void	rrb(t_stack *b)
+void rra(t_stack *a, t_command **cmd_list)
 {
-	int	i;
-	int	last_item;
-
-	if(b->top > 0)
-	{
-		i = b->top;
-		last_item = b->elements[b->top];
-		while (i > 0)
-		{
-			b->elements[i] = b->elements[i - 1];
-		}
-		b->elements[0] = last_item;
-	}
+    if (a->size > 1) {
+        reverse_rotate_stack(a);
+        add_command(cmd_list, "rra\n");
+    }
 }
 
-void	rrr(t_stack *a, t_stack *b)
+void rrb(t_stack *b, t_command **cmd_list)
 {
-	rra(a);
-	rrb(b);
+    if (b->size > 1) {
+        reverse_rotate_stack(b);
+        add_command(cmd_list, "rrb\n");
+    }
+}
+
+void rrr(t_stack *a, t_stack *b, t_command **cmd_list)
+{
+    rra(a, cmd_list);
+    rrb(b, cmd_list);
 }

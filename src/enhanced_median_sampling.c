@@ -6,84 +6,69 @@
 /*   By: abhudulo <abhudulo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 02:33:11 by abhudulo          #+#    #+#             */
-/*   Updated: 2024/05/28 19:13:26 by abhudulo         ###   ########.fr       */
+/*   Updated: 2024/05/28 20:39:30 by abhudulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	swap(int *a, int *b)
+void swap_stack(t_stack *stack)
 {
-	int	temp;
-
-	temp = *a;
-	*a = *b;
-	*b = temp;
-}
-void insertion_sort(int *arr, int size) {
-    for (int i = 1; i < size; i++) {
-        int key = arr[i];
-        int j = i - 1;
-        while (j >= 0 && arr[j] > key) {
-            arr[j + 1] = arr[j];
-            j--;
-        }
-        arr[j + 1] = key;
-    }
-}
-
-
-
-int quickselect(int arr[], int left, int right, int k) {
-    if (left == right) {
-        return arr[left];
-    }
-
-    int pivotIndex = (left + right) / 2; // You can use a more sophisticated method
-    pivotIndex = partition(arr, left, right, pivotIndex);
-
-    // The pivot is in its final sorted position
-    if (k == pivotIndex) {
-        return arr[k];
-    } else if (k < pivotIndex) {
-        return quickselect(arr, left, pivotIndex - 1, k);
+    if (stack->size < 2) return;
+    t_node *first = stack->top;
+    t_node *second = first->next;
+    first->next = second->next;
+    if (second->next) {
+        second->next->prev = first;
     } else {
-        return quickselect(arr, pivotIndex + 1, right, k);
+        stack->bottom = first;
+    }
+    second->prev = NULL;
+    second->next = first;
+    first->prev = second;
+    stack->top = second;
+}
+
+void add_command(t_command **cmd_list, const char *cmd)
+{
+    t_command *new_cmd = (t_command *)malloc(sizeof(t_command));
+    if (!new_cmd) {
+        perror("Error");
+        exit(EXIT_FAILURE);
+    }
+    new_cmd->cmd = strdup(cmd);
+    if (!new_cmd->cmd) {
+        perror("Error");
+        exit(EXIT_FAILURE);
+    }
+    new_cmd->next = NULL;
+    if (!*cmd_list) {
+        *cmd_list = new_cmd;
+    } else {
+        t_command *temp = *cmd_list;
+        while (temp->next) {
+            temp = temp->next;
+        }
+        temp->next = new_cmd;
     }
 }
 
+void print_commands(t_command *cmd_list)
+{
+    t_command *temp = cmd_list;
+    while (temp) {
+        printf("%s", temp->cmd);
+        temp = temp->next;
+    }
+}
 
-// int quickselect(int arr[], int low, int high, int k) {
-//     if (low == high) return arr[low];
+int find_median(int *arr, int size)
+{
+    qsort(arr, size, sizeof(int), compare_int);
+    return arr[size / 2];
+}
 
-//     int pivot = arr[low + (high - low) / 2];  // Using the middle element as pivot
-//     int lt, gt;
-//     three_way_partition(arr, low, high, &lt, &gt, pivot);
-
-//     if (k >= lt && k <= gt) {
-//         return arr[k];  // The k-th element is in the range of elements equal to the pivot
-//     } else if (k < lt) {
-//         return quickselect(arr, low, lt - 1, k);
-//     } else {
-//         return quickselect(arr, gt + 1, high, k);
-//     }
-// }
-
-// int select_median(int *arr, int left, int right) {
-//     int center = (left + right) / 2;
-//     // Order the left, center, and right elements
-//     if (arr[left] > arr[center])
-//         swap(&arr[left], &arr[center]);
-//     if (arr[left] > arr[right])
-//         swap(&arr[left], &arr[right]);
-//     if (arr[center] > arr[right])
-//         swap(&arr[center], &arr[right]);
-
-//     // Place the pivot at position right - 1
-//     swap(&arr[center], &arr[right - 1]);
-//     return arr[right - 1];
-// }
-
-int select_median(int arr[], int n) {
-    return quickselect(arr, 0, n - 1, n / 2);
+int compare_int(const void *a, const void *b)
+{
+    return (*(int *)a - *(int *)b);
 }

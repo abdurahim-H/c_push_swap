@@ -6,7 +6,7 @@
 /*   By: abhudulo <abhudulo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 22:43:47 by event             #+#    #+#             */
-/*   Updated: 2024/05/30 04:42:24 by abhudulo         ###   ########.fr       */
+/*   Updated: 2024/05/30 09:23:12 by abhudulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,41 +58,81 @@
 // }
 
 
+// int main(int argc, char *argv[]) {
+//     if (argc <= 1) {
+//         fprintf(stderr, "Usage: %s <numbers to sort>\n", argv[0]);
+//         return 1;
+//     }
+//     if (argc == 2) return 0;
+
+//     t_stack a, b;
+//     t_command *cmd_list = NULL;
+//     int capacity = argc - 1;
+
+//     init_stack(&a, capacity);
+//     init_stack(&b, capacity);
+
+//     for (int i = argc - 1; i >= 1; i--) {
+//         int num = atoi(argv[i]);
+//         push(&a, num);
+//     }
+
+//     printf("Initial stack A: ");
+//     print_stack(&a, "A");
+
+//     sort_stack(&a, &b, &cmd_list);
+
+//     printf("Sorted stack A: ");
+//     print_stack(&a, "A");
+
+//     t_command *current_cmd = cmd_list;
+//     printf("Commands executed:\n");
+//     while (current_cmd) {
+//         printf("%s\n", current_cmd->command);
+//         current_cmd = current_cmd->next;
+//     }
+
+//     free_commands(cmd_list);
+//     free_stack(&a);
+//     free_stack(&b);
+
+//     return 0;
+// }
+
 int main(int argc, char *argv[]) {
     if (argc <= 1) {
         fprintf(stderr, "Usage: %s <numbers to sort>\n", argv[0]);
         return 1;
     }
+    if (argc == 2) return 0;
 
-    t_stack a;
+    t_stack a, b;
     t_command *cmd_list = NULL;
     int capacity = argc - 1;
 
     init_stack(&a, capacity);
+    init_stack(&b, capacity);
 
-    // Process input numbers and push them onto stack a
-    for (int i = 1; i < argc; i++) {
-        long num = convert_to_long(argv[i]);
-        if (num < INT_MIN || num > INT_MAX || check_duplicates(&a)) {
-            fprintf(stderr, "Invalid input or duplicate found.\n");
+    for (int i = argc - 1; i >= 1; i--) {
+        char *endptr;
+        long num = strtol(argv[i], &endptr, 10);
+        if (*endptr != '\0' || num < INT_MIN || num > INT_MAX) {
+            fprintf(stderr, "Invalid input: %s\n", argv[i]);
             free_stack(&a);
+            free_stack(&b);
             return 1;
         }
         push(&a, (int)num);
     }
 
-    // Print the initial state of stack a
     printf("Initial stack A: ");
     print_stack(&a, "A");
 
-    // Execute the quicksort algorithm
-    quicksort_stack(&a, &cmd_list);
+    sort_stack(&a, &b, &cmd_list);
 
-    // Print the sorted stack A to verify everything
     printf("Sorted stack A: ");
     print_stack(&a, "A");
 
-    // Optionally, print the commands that were issued
     t_command *current_cmd = cmd_list;
     printf("Commands executed:\n");
     while (current_cmd) {
@@ -100,9 +140,9 @@ int main(int argc, char *argv[]) {
         current_cmd = current_cmd->next;
     }
 
-    // Cleanup
     free_commands(cmd_list);
     free_stack(&a);
+    free_stack(&b);
 
     return 0;
 }

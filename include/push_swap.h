@@ -6,7 +6,7 @@
 /*   By: abhudulo <abhudulo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 03:45:22 by abhudulo          #+#    #+#             */
-/*   Updated: 2024/05/30 04:41:50 by abhudulo         ###   ########.fr       */
+/*   Updated: 2024/05/30 09:17:49 by abhudulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,29 @@
 //     struct s_command *next;
 // } t_command;
 
+// typedef struct s_node {
+//     int value;
+//     struct s_node *next;
+//     struct s_node *prev;
+// } t_node;
+
+// typedef struct s_stack {
+//     t_node *top;
+//     t_node *bottom;
+//     int size;
+//     int capacity;
+// } t_stack;
+
+// typedef struct s_command {
+//     char *command;
+//     struct s_command *next;
+// } t_command;
+
+// typedef struct s_range {
+//     int low;
+//     int high;
+// } t_range;
+
 typedef struct s_node {
     int value;
     struct s_node *next;
@@ -163,11 +186,14 @@ int compare_int(const void *a, const void *b);
 int compare_int(const void *a, const void *b);
 void init_stack(t_stack *stack, int capacity);
 void free_stack(t_stack *stack);
-void push(t_stack *stack, int value);
-int pop(t_stack *stack);
+// void push(t_stack *stack, int value);
+int push(t_stack *stack, int value);
+// int pop(t_stack *stack);
+int pop(t_stack *stack, int *value);
 int check_duplicates(t_stack *stack);
 long convert_to_long(const char *str);
 void free_commands(t_command *cmd_list);
 void partition_stack(t_stack *a, t_stack *b, int median, t_command **cmd_list);
+void sort_stack(t_stack *a, t_stack *b, t_command **cmd_list);
 
 #endif // PUSH_SWAP_H

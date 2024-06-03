@@ -6,147 +6,54 @@
 /*   By: abhudulo <abhudulo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 23:06:00 by abhudulo          #+#    #+#             */
-/*   Updated: 2024/05/30 07:52:24 by abhudulo         ###   ########.fr       */
+/*   Updated: 2024/06/03 01:22:10 by abhudulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// void ra(t_stack *a, t_command **cmd_list)
-// {
-//     if (a->size > 1) {
-//         t_node *first = a->top;
-//         a->top = first->next;
-//         a->top->prev = NULL;
-//         first->next = NULL;
-//         if (a->bottom) {
-//             a->bottom->next = first;
-//             first->prev = a->bottom;
-//         }
-//         a->bottom = first;
-//         add_command(cmd_list, "ra\n");
-//     }
-// }
-
-// void rb(t_stack *b, t_command **cmd_list)
-// {
-//     if (b->size > 1) {
-//         t_node *first = b->top;
-//         b->top = first->next;
-//         b->top->prev = NULL;
-//         first->next = NULL;
-//         if (b->bottom) {
-//             b->bottom->next = first;
-//             first->prev = b->bottom;
-//         }
-//         b->bottom = first;
-//         add_command(cmd_list, "rb\n");
-//     }
-// }
-
-// void rr(t_stack *a, t_stack *b, t_command **cmd_list)
-// {
-//     ra(a, cmd_list);
-//     rb(b, cmd_list);
-// }
-
-// void rra(t_stack *a, t_command **cmd_list)
-// {
-//     if (a->size > 1) {
-//         t_node *last = a->bottom;
-//         a->bottom = last->prev;
-//         a->bottom->next = NULL;
-//         last->prev = NULL;
-//         last->next = a->top;
-//         a->top->prev = last;
-//         a->top = last;
-//         add_command(cmd_list, "rra\n");
-//     }
-// }
-
-// void rrb(t_stack *b, t_command **cmd_list)
-// {
-//     if (b->size > 1) {
-//         t_node *last = b->bottom;
-//         b->bottom = last->prev;
-//         b->bottom->next = NULL;
-//         last->prev = NULL;
-//         last->next = b->top;
-//         b->top->prev = last;
-//         b->top = last;
-//         add_command(cmd_list, "rrb\n");
-//     }
-// }
-
-// void rrr(t_stack *a, t_stack *b, t_command **cmd_list)
-// {
-//     rra(a, cmd_list);
-//     rrb(b, cmd_list);
-// }
-
-
-void ra(t_stack *a, t_command **cmd_list) {
-    if (a->size > 1) {
-        t_node *first = a->top;
-        a->top = first->next;
-        a->top->prev = NULL;
-        first->next = NULL;
-        if (a->bottom) {
-            a->bottom->next = first;
-            first->prev = a->bottom;
-        }
-        a->bottom = first;
+void ra(t_stack *stack_a, t_command **cmd_list) {
+    if (stack_a->size >= 2) {
+        int value = stack_a->top->value;
+        pop(stack_a, NULL);
+        push_bottom(stack_a, value);
         add_command(cmd_list, "ra\n");
     }
 }
 
-void rb(t_stack *b, t_command **cmd_list) {
-    if (b->size > 1) {
-        t_node *first = b->top;
-        b->top = first->next;
-        b->top->prev = NULL;
-        first->next = NULL;
-        if (b->bottom) {
-            b->bottom->next = first;
-            first->prev = b->bottom;
-        }
-        b->bottom = first;
+void rb(t_stack *stack_b, t_command **cmd_list) {
+    if (stack_b->size >= 2) {
+        int value = stack_b->top->value;
+        pop(stack_b, NULL);
+        push_bottom(stack_b, value);
         add_command(cmd_list, "rb\n");
     }
 }
 
-void rr(t_stack *a, t_stack *b, t_command **cmd_list) {
-    ra(a, cmd_list);
-    rb(b, cmd_list);
+void rr(t_stack *stack_a, t_stack *stack_b, t_command **cmd_list) {
+    ra(stack_a, cmd_list);
+    rb(stack_b, cmd_list);
 }
 
-void rra(t_stack *a, t_command **cmd_list) {
-    if (a->size > 1) {
-        t_node *last = a->bottom;
-        a->bottom = last->prev;
-        a->bottom->next = NULL;
-        last->prev = NULL;
-        last->next = a->top;
-        a->top->prev = last;
-        a->top = last;
+void rra(t_stack *stack_a, t_command **cmd_list) {
+    if (stack_a->size >= 2) {
+        int value = stack_a->bottom->value;
+        pop_bottom(stack_a, NULL);
+        push(stack_a, value);
         add_command(cmd_list, "rra\n");
     }
 }
 
-void rrb(t_stack *b, t_command **cmd_list) {
-    if (b->size > 1) {
-        t_node *last = b->bottom;
-        b->bottom = last->prev;
-        b->bottom->next = NULL;
-        last->prev = NULL;
-        last->next = b->top;
-        b->top->prev = last;
-        b->top = last;
+void rrb(t_stack *stack_b, t_command **cmd_list) {
+    if (stack_b->size >= 2) {
+        int value = stack_b->bottom->value;
+        pop_bottom(stack_b, NULL);
+        push(stack_b, value);
         add_command(cmd_list, "rrb\n");
     }
 }
 
-void rrr(t_stack *a, t_stack *b, t_command **cmd_list) {
-    rra(a, cmd_list);
-    rrb(b, cmd_list);
+void rrr(t_stack *stack_a, t_stack *stack_b, t_command **cmd_list) {
+    rra(stack_a, cmd_list);
+    rrb(stack_b, cmd_list);
 }

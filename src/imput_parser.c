@@ -6,72 +6,62 @@
 /*   By: abhudulo <abhudulo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:10:13 by abhudulo          #+#    #+#             */
-/*   Updated: 2024/05/28 21:07:05 by abhudulo         ###   ########.fr       */
+/*   Updated: 2024/06/03 01:23:10 by abhudulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// long convert_to_long(char *str) {
-//     char *endptr;
-//     long num;
+#define HASH_SIZE 10007
 
-//     errno = 0;
-//     num = strtol(str, &endptr, 10);
-//     if (str == endptr || *endptr != '\0' || errno == ERANGE || num > INT_MAX || num < INT_MIN) {
-//         fprintf(stderr, "Error\n");
-//         return -1;
-//     }
-//     return num;
-// }
-
-long convert_to_long(const char *str)
-{
+int convert_to_long(const char *str, long *result) {
     char *endptr;
     long num = strtol(str, &endptr, 10);
     if (*endptr != '\0' || num > INT_MAX || num < INT_MIN) {
-        return LONG_MIN;
+        return 0; // Return 0 to indicate an error
     }
-    return num;
+    *result = num;
+    return 1; // Return 1 to indicate success
 }
 
+
 int process_args(int argc, char **argv, t_stack *stack) {
-    long num;
     for (int i = 1; i < argc; i++) {
-        num = convert_to_long(argv[i]);
-        if (num == LONG_MIN || num == LONG_MAX) {
-            fprintf(stderr, "Error\n");
+        long num;
+        if (!convert_to_long(argv[i], &num)) {
+            push_swap_error = 1;
             return 1;
         }
-        push(stack, (int)num);
+        if (!push(stack, (int)num)) {
+            push_swap_error = 1;
+            return 1;
+        }
     }
     if (check_duplicates(stack)) {
-        fprintf(stderr, "Error\n");
+        push_swap_error = 1;
         return 1;
     }
     return 0;
 }
 
-int check_duplicates(t_stack *stack)
-{
-    int *arr = (int *)malloc(stack->size * sizeof(int));
-    if (!arr) {
-        perror("Error");
-        exit(EXIT_FAILURE);
+bool check_duplicates(t_stack *stack) {
+    int *hash_table = (int *)calloc(HASH_SIZE, sizeof(int));
+    if (!hash_table) {
+        return true; // Memory allocation failed
     }
+
     t_node *current = stack->top;
-    for (int i = 0; i < stack->size; i++) {
-        arr[i] = current->value;
+    while (current) {
+        int value = current->value;
+        int hash_index = abs(value) % HASH_SIZE;
+        if (hash_table[hash_index] == value) {
+            free(hash_table);
+            return true; // Duplicate found
+        }
+        hash_table[hash_index] = value;
         current = current->next;
     }
-    for (int i = 0; i < stack->size - 1; i++) {
-        for (int j = i + 1; j < stack->size; j++) {
-            if (arr[i] == arr[j]) {
-                free(arr);
-                return 1;
-            }
-        }
-    }
-    free(arr);
-    return 0;
+
+    free(hash_table);
+    return false; // No duplicates
 }

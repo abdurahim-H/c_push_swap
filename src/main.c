@@ -6,7 +6,7 @@
 /*   By: abhudulo <abhudulo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 22:43:47 by event             #+#    #+#             */
-/*   Updated: 2024/06/13 14:07:51 by abhudulo         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:12:11 by abhudulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ int main(int argc, char *argv[]) {
     print_commands(cmd_list);
 
     // Print the final sorted stack
-    t_node *node = a.top;
-    printf("Sorted stack: ");
-    while (node) {
-        printf("%d ", node->value);
-        node = node->next;
-    }
-    printf("\n");
+    // t_node *node = a.top;
+    // printf("Sorted stack: ");
+    // while (node) {
+    //     printf("%d ", node->value);
+    //     node = node->next;
+    // }
+    // printf("\n");
 
     free_commands(cmd_list);
     free_stack(&a);

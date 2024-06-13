@@ -6,7 +6,7 @@
 /*   By: abhudulo <abhudulo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 02:33:11 by abhudulo          #+#    #+#             */
-/*   Updated: 2024/06/03 01:23:24 by abhudulo         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:05:54 by abhudulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,11 @@ void add_command(t_command **cmd_list, const char *command) {
     } else {
         t_command *current = *cmd_list;
         while (current->next) {
-            current = current->next;
-        }
+            current = current->next;        }
         current->next = new_cmd;
     }
 }
 
-void free_commands(t_command *cmd_list) {
-    while (cmd_list) {
-        t_command *temp = cmd_list;
-        cmd_list = cmd_list->next;
-        free(temp->command);
-        free(temp);
-    }
-}
 
 void print_commands(t_command *cmd_list) {
     while (cmd_list) {

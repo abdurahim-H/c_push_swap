@@ -6,7 +6,7 @@
 /*   By: abhudulo <abhudulo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 03:45:22 by abhudulo          #+#    #+#             */
-/*   Updated: 2024/06/03 01:20:51 by abhudulo         ###   ########.fr       */
+/*   Updated: 2024/06/13 12:57:23 by abhudulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,7 @@ void rrb(t_stack *stack_b, t_command **cmd_list);
 void rrr(t_stack *stack_a, t_stack *stack_b, t_command **cmd_list);
 void push_bottom(t_stack *stack, int value);
 int pop_bottom(t_stack *stack, int *value);
+int is_reverse_sorted(t_stack *stack);
+void optimize_stack(t_stack *stack_a, t_stack *stack_b, t_command **cmd_list);
 
 #endif // PUSH_SWAP_H
